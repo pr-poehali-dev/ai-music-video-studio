@@ -1,9 +1,37 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
 
 export default function Index() {
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+
+  const portfolioItems = [
+    {
+      id: 1,
+      title: "Электронная мечта",
+      description: "Синтез-поп трек с футуристическими визуальными эффектами",
+      image: "/img/fab7c992-f93e-46ab-8cf9-3b00e6448ff6.jpg",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    },
+    {
+      id: 2,
+      title: "Космическая одиссея",
+      description: "Эмбиент композиция с визуализацией космоса",
+      image: "/img/b6632e8a-270a-42e3-a663-03b3cf3cb680.jpg",
+      videoUrl: "https://www.youtube.com/embed/M7lc1UVf-VE"
+    },
+    {
+      id: 3,
+      title: "Неоновый город",
+      description: "Динамичный хип-хоп клип с киберпанк эстетикой",
+      image: null,
+      videoUrl: "https://www.youtube.com/embed/ZZ5LpwO-An4"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-gray-100">
       {/* Header */}
@@ -131,70 +159,53 @@ export default function Index() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Portfolio items will be populated with generated images */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group animate-fade-in">
-              <div className="relative overflow-hidden rounded-t-lg">
-                <img 
-                  src="/img/fab7c992-f93e-46ab-8cf9-3b00e6448ff6.jpg"
-                  alt="AI Music Video Creation" 
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <Button size="sm" className="bg-white text-dark-gray hover:bg-gray-100 font-open-sans">
-                      <Icon name="Play" className="w-4 h-4 mr-2" />
-                      Смотреть
-                    </Button>
+            {portfolioItems.map((item) => (
+              <Card key={item.id} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group animate-fade-in">
+                <div className="relative overflow-hidden rounded-t-lg">
+                  {item.image ? (
+                    <img 
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gradient-to-br from-turquoise to-coral flex items-center justify-center">
+                      <Icon name="Zap" className="w-16 h-16 text-white opacity-50" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button size="sm" className="bg-white text-dark-gray hover:bg-gray-100 font-open-sans">
+                            <Icon name="Play" className="w-4 h-4 mr-2" />
+                            Смотреть
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-4xl">
+                          <DialogHeader>
+                            <DialogTitle className="font-montserrat text-dark-gray">{item.title}</DialogTitle>
+                          </DialogHeader>
+                          <div className="aspect-video">
+                            <iframe
+                              src={item.videoUrl}
+                              title={item.title}
+                              className="w-full h-full rounded-lg"
+                              allowFullScreen
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            />
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="font-montserrat font-semibold text-dark-gray mb-2">Электронная мечта</h3>
-                <p className="text-gray-600 font-open-sans text-sm">Синтез-поп трек с футуристическими визуальными эффектами</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group animate-fade-in">
-              <div className="relative overflow-hidden rounded-t-lg">
-                <img 
-                  src="/img/b6632e8a-270a-42e3-a663-03b3cf3cb680.jpg"
-                  alt="AI Music Video Visualization" 
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <Button size="sm" className="bg-white text-dark-gray hover:bg-gray-100 font-open-sans">
-                      <Icon name="Play" className="w-4 h-4 mr-2" />
-                      Смотреть
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="font-montserrat font-semibold text-dark-gray mb-2">Космическая одиссея</h3>
-                <p className="text-gray-600 font-open-sans text-sm">Эмбиент композиция с визуализацией космоса</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group animate-fade-in">
-              <div className="relative overflow-hidden rounded-t-lg">
-                <div className="w-full h-48 bg-gradient-to-br from-turquoise to-coral flex items-center justify-center">
-                  <Icon name="Zap" className="w-16 h-16 text-white opacity-50" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <Button size="sm" className="bg-white text-dark-gray hover:bg-gray-100 font-open-sans">
-                      <Icon name="Play" className="w-4 h-4 mr-2" />
-                      Смотреть
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="font-montserrat font-semibold text-dark-gray mb-2">Неоновый город</h3>
-                <p className="text-gray-600 font-open-sans text-sm">Динамичный хип-хоп клип с киберпанк эстетикой</p>
-              </CardContent>
-            </Card>
+                <CardContent className="p-6">
+                  <h3 className="font-montserrat font-semibold text-dark-gray mb-2">{item.title}</h3>
+                  <p className="text-gray-600 font-open-sans text-sm">{item.description}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
